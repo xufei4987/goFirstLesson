@@ -1,0 +1,20 @@
+package workerpool2
+
+import (
+	"testing"
+	"time"
+)
+
+func TestPool(t *testing.T) {
+	p := New(5, WithBlock(false))
+
+	for i := 0; i < 10; i++ {
+		err := p.Schedule(func() {
+			time.Sleep(time.Second * 3)
+		})
+		if err != nil {
+			println("task: ", i, "err:", err)
+		}
+	}
+	p.Free()
+}
